@@ -1,0 +1,2 @@
+include crosservice/*.py
+include requirements.txt
