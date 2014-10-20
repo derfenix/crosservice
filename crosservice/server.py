@@ -4,7 +4,7 @@ from __future__ import unicode_literals, print_function, absolute_import
 from gevent import monkey
 monkey.patch_all()
 # @formatter:on
-import json
+import bson
 import logging
 
 from gevent.server import StreamServer
@@ -38,7 +38,7 @@ def handler(socket, address):
         msg = {
             'status': 'error', 'message': 'Missed data or action'
         }
-        msg = json.dumps(msg)
+        msg = bson.dumps(msg)
         send_msg(socket, msg)
         return
 
@@ -55,7 +55,7 @@ def handler(socket, address):
         log.warning("No handler for action `{0}`".format(action))
         msg = {"error": "No signal for action {0}".format(action), "status": "error"}
 
-    msg = json.dumps(msg)
+    msg = bson.dumps(msg)
     send_msg(socket, msg)
 
 

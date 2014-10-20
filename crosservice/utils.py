@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, absolute_import
+import base64
+from json import JSONEncoder
 import struct
 
 
