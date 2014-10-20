@@ -22,13 +22,13 @@ def handler(socket, address):
 
     # Trying to load data from received json message
     try:
-        message = json.loads(message)
+        message = bson.loads(message)
     except ValueError:
         log.error("Bad message format")
         msg = {
             'status': 'error', 'message': 'Bad message format'
         }
-        msg = json.dumps(msg)
+        msg = bson.dumps(msg)
         send_msg(socket, msg)
         return
 
