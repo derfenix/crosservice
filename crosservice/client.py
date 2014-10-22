@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
-import bson
+import json
 import logging
 import sys
 
@@ -19,9 +19,9 @@ class Client(object):
     def send(self, action, data):
         log.info("Send action `{0}`".format(action))
         msg = {'action': action, 'data': data}
-        msg = bson.BSON().encode(msg)
+        msg = json.dumps(msg)
         send_msg(self.socket, msg)
-        response = bson.BSON().decode(recv_msg(self.socket))
+        response = json.loads(recv_msg(self.socket))
 
         if response['status'] == 'error':
             log.error(response['error'])
