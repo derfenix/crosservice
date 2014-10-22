@@ -19,9 +19,9 @@ class Client(object):
     def send(self, action, data):
         log.info("Send action `{0}`".format(action))
         msg = {'action': action, 'data': data}
-        msg = bson.dumps(msg)
+        msg = bson.BSON().encode(msg)
         send_msg(self.socket, msg)
-        response = bson.loads(recv_msg(self.socket))
+        response = bson.BSON().decode(recv_msg(self.socket))
 
         if response['status'] == 'error':
             log.error(response['error'])

@@ -22,13 +22,13 @@ def handler(socket, address):
 
     # Trying to load data from received json message
     try:
-        message = bson.loads(message)
+        message = bson.BSON().decode(message)
     except ValueError:
         log.error("Bad message format")
         msg = {
             'status': 'error', 'message': 'Bad message format'
         }
-        msg = bson.dumps(msg)
+        msg = bson.BSON().decode(msg)
         send_msg(socket, msg)
         return
 
@@ -38,7 +38,7 @@ def handler(socket, address):
         msg = {
             'status': 'error', 'message': 'Missed data or action'
         }
-        msg = bson.dumps(msg)
+        msg = bson.BSON().decode(msg)
         send_msg(socket, msg)
         return
 
@@ -55,7 +55,7 @@ def handler(socket, address):
         log.warning("No handler for action `{0}`".format(action))
         msg = {"error": "No signal for action {0}".format(action), "status": "error"}
 
-    msg = bson.dumps(msg)
+    msg = bson.BSON().encode(msg)
     send_msg(socket, msg)
 
 
