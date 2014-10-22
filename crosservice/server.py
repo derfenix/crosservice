@@ -25,6 +25,7 @@ def handler(socket, address):
         message = json.loads(message)
     except ValueError:
         log.error("Bad message format")
+        log.info(message)
         msg = {
             'status': 'error', 'message': 'Bad message format'
         }
