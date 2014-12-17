@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='crosservice',
-    version='1.0',
+    version='2.0',
     packages=['crosservice'],
     url='http://',
     install_requires=open('requirements.txt').read(),

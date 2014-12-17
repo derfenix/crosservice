@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, absolute_import
-import base64
-from json import JSONEncoder
 import struct
 
 
 def send_msg(sock, msg):
+    if hasattr(msg, 'dump') and callable(msg.dump):
+        msg = msg.dump()
     # Prefix each message with a 4-byte length (network byte order)
     msg = struct.pack('>I', len(msg)) + msg
     sock.sendall(msg)
