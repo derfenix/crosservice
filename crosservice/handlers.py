@@ -7,18 +7,30 @@ from gevent.lock import RLock
 from crosservice.log import baselogger
 
 
+logger = baselogger.getChild('handlers')
+
+
 class HandlersStorage(object):
     _lock = RLock()
     _data = {}
+    log = logger.getChild('HandlersStorage')
 
     def __setitem__(self, key, value):
         self._lock.acquire()
-        value = value()
-        if key in self._data:
-            self._data[key].append(value)
-        else:
-            self._data[key] = [value]
-        self._lock.release()
+        try:
+            value = value()
+            if key in self._data:
+                self.log.warning(
+                    'Overload of handler for signal {0}: {1} -> {2}'.format(
+                        key, self._data[key].name, value.name
+                    )
+                )
+            else:
+                self._data[key] = value
+        except Exception as e:
+            self.log.exception(e)
+        finally:
+            self._lock.release()
 
     def __getitem__(self, item):
         self._lock.acquire()
@@ -114,9 +126,7 @@ class HandlerMetaClass(type):
         if name != 'BaseHandler':
             assert cls.signal, \
                 "Signal must be specified at %s" % namespace['__module__']
-            if not cls.name:
-                cls.name = name
-
+            cls.name = "%s.%s" % (namespace['__module__'], name)
             cls.init()
 
             Handlers[cls.signal] = cls
@@ -127,19 +137,19 @@ class HandlerMetaClass(type):
 class BaseHandler(object):
     __metaclass__ = HandlerMetaClass
     signal = None
-    name = None
 
     _logger = None
     _signal = None
     result = None
+    _result_class = Result
 
     def __init__(self):
-        self.__name__ = self.name
-        self.result = Result()
+        self.result = self._result_class()
+        self.__name__ = self.__class__.__name__
 
     @classmethod
     def init(cls):
-        cls._logger = baselogger.getChild(cls.name)
+        cls._logger = baselogger.getChild(cls.__name__)
 
     # region logging
     def exception(self, message):

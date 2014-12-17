@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
 # @formatter:off
-import pickle
 from gevent import monkey
 monkey.patch_all()
 # @formatter:on
+import pickle
 from crosservice.handlers import Handlers, Result
 import logging
 
@@ -25,27 +25,31 @@ def handler(socket, address):
     res = Result()
 
     # Check for all required keys
-    if not ('data' in message and 'action' in message):
+    if not ('data' in message and 'signal' in message):
         log.error("Incomplete message, passed: {0}".format(message.keys()))
-        res.error = 'Missed data or action'
+        res.error = 'Missed data or signal'
 
         send_msg(socket, res)
         return
-
-    action = message['action']
+    signal = message['signal']
     data = message['data']
+    if not data:
+        data = {}
 
+    log.debug("Signal {0} received".format(signal))
     # Trying to execute action's handler
-    if action in Handlers:
-        handlers = Handlers[action]
-        for h in handlers:
-            """:type: crosservice.handlers.Handler"""
-            log.info("Using `{0}` as handler for action `{1}`".format(h,
-                                                                      action))
-            res = h(**data)
+    if signal in Handlers:
+        h = Handlers[signal]
+        """:type: crosservice.handlers.Handler"""
+        log.info(
+            "Using `{0}` as handler for signal `{1}`".format(
+                h.name, signal
+            )
+        )
+        res = h(**data)
     else:
-        log.warning("No handler for action `{0}`".format(action))
-        res.error = "No handler for action {0}".format(action)
+        log.warning("No handler for signal `{0}`".format(signal))
+        res.error = "No handler for signal {0}".format(signal)
 
     send_msg(socket, res)
 

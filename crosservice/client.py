@@ -6,7 +6,6 @@ from gevent import monkey
 monkey.patch_all()
 # @formatter:on
 from crosservice.log import baselogger
-import json
 import sys
 
 from gevent import socket
@@ -23,11 +22,11 @@ class Client(object):
         self.host = host
         self.port = port
 
-    def send(self, action, data):
-        log = logger.getChild(action)
+    def send(self, signal, data):
+        log = logger.getChild(signal)
         _socket = socket.create_connection((self.host, int(self.port)))
         log.debug("Data: {0}".format(data))
-        msg = {'action': action, 'data': data}
+        msg = {'signal': signal, 'data': data}
         msg = pickle.dumps(msg)
         send_msg(_socket, msg)
         response = recv_msg(_socket)
