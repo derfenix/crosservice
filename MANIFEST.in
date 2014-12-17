@@ -1,2 +1,2 @@
 include crosservice/*.py
-include requirements.txt
+include *.txt

@@ -3,10 +3,12 @@ from __future__ import print_function, absolute_import
 import struct
 
 
+# region Sockets
 def send_msg(sock, msg):
     if hasattr(msg, 'dump') and callable(msg.dump):
         msg = msg.dump()
     # Prefix each message with a 4-byte length (network byte order)
+    # noinspection PyAugmentAssignment
     msg = struct.pack('>I', len(msg)) + msg
     sock.sendall(msg)
 
@@ -30,3 +32,4 @@ def recvall(sock, n):
             return None
         data += packet
     return data
+# endregion

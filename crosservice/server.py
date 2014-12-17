@@ -20,6 +20,7 @@ log = logging.getLogger(__name__)
 
 
 def handler(socket, address):
+    log.info("Request from {0}".format(address))
     message = recv_msg(socket)
     message = pickle.loads(message)
     res = Result()

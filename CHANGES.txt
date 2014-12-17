@@ -1,0 +1,12 @@
+1.0
+===
+
+* Initial verion
+
+
+2.0
+===
+
+* Redesign handlers and signals
+* Replace json serializer by pickle
+* Add more logs to client and server

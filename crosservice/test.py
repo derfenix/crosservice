@@ -12,6 +12,7 @@ from crosservice.handlers import BaseHandler
 
 # TODO: Test missed data events
 
+# region Signals and handlers for testing
 class Signal(BaseSignal):
     _host = '127.0.0.1'
     _port = 1234
@@ -37,6 +38,7 @@ class TestErrorHandler(BaseHandler):
 
 class TestErrorSignal(Signal):
     signal = 'test_error'
+# endregion
 
 
 class MyTestCase(unittest.TestCase):

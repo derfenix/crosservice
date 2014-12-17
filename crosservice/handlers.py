@@ -3,6 +3,7 @@ from __future__ import unicode_literals, print_function, absolute_import
 import pickle
 
 from gevent.lock import RLock
+import six
 
 from crosservice.log import baselogger
 
@@ -10,6 +11,7 @@ from crosservice.log import baselogger
 logger = baselogger.getChild('handlers')
 
 
+# region HandlersStorage
 class HandlersStorage(object):
     _lock = RLock()
     _data = {}
@@ -27,25 +29,26 @@ class HandlersStorage(object):
                 )
             else:
                 self._data[key] = value
-        except Exception as e:
-            self.log.exception(e)
         finally:
             self._lock.release()
 
     def __getitem__(self, item):
         self._lock.acquire()
-        if item in self._data:
-            data = self._data[item]
-        else:
-            data = None
-        self._lock.release()
+        data = None
+        try:
+            if item in self._data:
+                data = self._data[item]
+        finally:
+            self._lock.release()
         return data
 
     def __delitem__(self, key):
         self._lock.acquire()
-        if key in self._data:
-            del self._data[key]
-        self._lock.release()
+        try:
+            if key in self._data:
+                del self._data[key]
+        finally:
+            self._lock.release()
 
     def __contains__(self, item):
         return item in self._data
@@ -53,10 +56,18 @@ class HandlersStorage(object):
     def items(self):
         return self._data.items()
 
+    def keys(self):
+        return self._data.keys()
+
+    def values(self):
+        return self._data.values()
+
 
 Handlers = HandlersStorage()
+# endregion
 
 
+# region Result
 class BaseResult(object):
     _status = False
     _error = None
@@ -117,16 +128,19 @@ class BaseResult(object):
 
 class Result(BaseResult):
     pass
+# endregion
 
 
+# region Handlers
 class HandlerMetaClass(type):
     def __new__(mcs, name, bases, namespace):
         cls = super(HandlerMetaClass, mcs).__new__(mcs, name, bases, namespace)
 
         if name != 'BaseHandler':
-            assert cls.signal, \
-                "Signal must be specified at %s" % namespace['__module__']
             cls.name = "%s.%s" % (namespace['__module__'], name)
+            assert cls.signal, \
+                "Signal must be specified at %s" % cls.name
+
             cls.init()
 
             Handlers[cls.signal] = cls
@@ -134,8 +148,8 @@ class HandlerMetaClass(type):
         return cls
 
 
+@six.add_metaclass(HandlerMetaClass)
 class BaseHandler(object):
-    __metaclass__ = HandlerMetaClass
     signal = None
 
     _logger = None
@@ -152,24 +166,23 @@ class BaseHandler(object):
         cls._logger = baselogger.getChild(cls.__name__)
 
     # region logging
-    def exception(self, message):
+    def _exception(self, message):
         self._logger.exception(message)
 
-    def critical(self, message):
+    def _critical(self, message):
         self._logger.critical(message)
 
-    def error(self, message):
+    def _error(self, message):
         self._logger.error(message)
 
-    def warning(self, message):
+    def _warning(self, message):
         self._logger.warning(message)
 
-    def info(self, message):
+    def _info(self, message):
         self._logger.info(message)
 
-    def debug(self, message):
+    def _debug(self, message):
         self._logger.debug(message)
-
     # endregion
 
     def __call__(self, *args, **kwargs):
@@ -178,3 +191,4 @@ class BaseHandler(object):
 
     def run(self, *args, **kwargs):
         raise NotImplementedError()
+# endregion
