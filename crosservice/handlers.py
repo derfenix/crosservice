@@ -156,6 +156,7 @@ class BaseHandler(object):
     _signal = None
     result = None
     _result_class = Result
+    _required_data = None
 
     def __init__(self):
         self.result = self._result_class()
@@ -185,9 +186,30 @@ class BaseHandler(object):
         self._logger.debug(message)
     # endregion
 
-    def __call__(self, *args, **kwargs):
-        self.run(*args, **kwargs)
+    def __call__(self, **kwargs):
+        err = False
+        if self._required_data:
+            err = self._check_required_data(kwargs)
+
+        if err:
+            self.run(**kwargs)
+
         return self.result
+
+    def _check_required_data(self, input_data):
+        input_keys = input_data.keys()
+        err = False
+        self.result.missed_keys = []
+        for k in self._required_data:
+            if k not in input_keys:
+                err = True
+                self._error('Missed key {0}'.format(k))
+                self.result.missed_keys.append(k)
+
+        if not err:
+            del self.result.missed_data
+
+        return err
 
     def run(self, *args, **kwargs):
         raise NotImplementedError()

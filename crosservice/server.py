@@ -32,6 +32,7 @@ def handler(socket, address):
 
         send_msg(socket, res)
         return
+
     signal = message['signal']
     data = message['data']
     if not data:

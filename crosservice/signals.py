@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
+import constants
 from crosservice import Client
 from crosservice.log import baselogger
-
-
-MD_LOG_WARN = 0
-MD_RAISE = 1
-MD_RESULT_ERR = 2
 
 
 class MissedResultError(Exception):
@@ -37,7 +33,7 @@ class BaseSignal(object):
     """:type: list or tuple"""
 
     #: Action on expected data missing
-    missed_data_error = MD_LOG_WARN
+    _missed_data_action = constants.MD_LOG_WARN
     """:type: int"""
 
     #: Signal's logger
@@ -102,14 +98,16 @@ class BaseSignal(object):
 
         :param str or unicode expect: missed field name
         """
-        if self.missed_data_error == MD_RAISE:
+        if self._missed_data_action == constants.MD_RAISE:
             raise MissedResultError(
                 "{0} expected in result, but missed".format(expect)
             )
-        elif self.missed_data_error == MD_RESULT_ERR:
+        elif self._missed_data_action == constants.MD_RESULT_ERR:
             self._result.error = 'Unexpected result, {0} is missed!'.format(
                 expect
             )
+        elif self._missed_data_action == constants.MD_SET_NONE:
+            self._result.expect = None
         else:
             self.log.warning(
                 '{0} excpected, but not received!'.format(expect)

@@ -3,10 +3,20 @@
 
 * Initial verion
 
-
 2.0
 ===
 
 * Redesign handlers and signals
 * Replace json serializer by pickle
 * Add more logs to client and server
+
+2.1
+===
+
+Dummy release
+
+2.2
+===
+
+* Check required data input in handlers
+* Refacroting
