@@ -192,7 +192,7 @@ class BaseHandler(object):
 
     def __call__(self, **kwargs):
         err = False
-        if self._required_data:
+        if self.required_data:
             err = self._check_required_data(kwargs)
 
         if not err:
