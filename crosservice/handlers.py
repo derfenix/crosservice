@@ -136,7 +136,8 @@ class HandlerMetaClass(type):
     def __new__(mcs, name, bases, namespace):
         cls = super(HandlerMetaClass, mcs).__new__(mcs, name, bases, namespace)
 
-        if name != 'BaseHandler':
+        if name != 'BaseHandler' and \
+                not ('abstract' in cls.__dict__ and getattr(cls, 'abstract')):
             cls.name = "%s.%s" % (namespace['__module__'], name)
             assert cls.signal, \
                 "Signal must be specified at %s" % cls.name
@@ -152,6 +153,7 @@ class HandlerMetaClass(type):
 class BaseHandler(object):
     signal = None
 
+    abstract = False
     _logger = None
     _signal = None
     result = None
@@ -191,7 +193,7 @@ class BaseHandler(object):
         if self._required_data:
             err = self._check_required_data(kwargs)
 
-        if err:
+        if not err:
             self.run(**kwargs)
 
         return self.result
@@ -200,6 +202,7 @@ class BaseHandler(object):
         input_keys = input_data.keys()
         err = False
         self.result.missed_keys = []
+
         for k in self._required_data:
             if k not in input_keys:
                 err = True
@@ -211,6 +214,6 @@ class BaseHandler(object):
 
         return err
 
-    def run(self, *args, **kwargs):
+    def run(self, **kwargs):
         raise NotImplementedError()
 # endregion

@@ -20,3 +20,8 @@ Dummy release
 
 * Check required data input in handlers
 * Refacroting
+
+2.3
+===
+
+* Add abstract handlers

@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='crosservice',
-    version='0.2.2',
+    version='0.2.3',
     packages=['crosservice'],
     install_requires=open('requirements.txt').read(),
     license='GPL',
@@ -11,7 +11,7 @@ setup(
     author_email='derfenix@gmail.com',
     description='Gevent povered cross service communication tool',
     url='https://github.com/derfenix/crosservice',
-    download_url='https://github.com/derfenix/crosservice/archive/v.0.2.2'
+    download_url='https://github.com/derfenix/crosservice/archive/v.0.2.3'
                  '.tar.gz',
     keywords=['communication', 'gevent', 'socket'],
     classifiers=[

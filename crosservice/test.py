@@ -18,7 +18,11 @@ class Signal(BaseSignal):
     _port = 1234
 
 
-class TestHandler(BaseHandler):
+class ABSHandler(BaseHandler):
+    abstract = True
+
+
+class TestHandler(ABSHandler):
     signal = 'test'
 
     def run(self, *args, **kwargs):
