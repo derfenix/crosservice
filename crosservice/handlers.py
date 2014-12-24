@@ -5,6 +5,8 @@ import pickle
 from gevent.lock import RLock
 import six
 
+import constants
+
 from crosservice.log import baselogger
 
 
@@ -155,10 +157,10 @@ class BaseHandler(object):
 
     abstract = False
     _logger = None
-    _signal = None
     result = None
     _result_class = Result
-    _required_data = None
+    required_data = None
+    exception_action = None
 
     def __init__(self):
         self.result = self._result_class()
@@ -194,9 +196,19 @@ class BaseHandler(object):
             err = self._check_required_data(kwargs)
 
         if not err:
-            self.run(**kwargs)
+            try:
+                self.run(**kwargs)
+            except Exception as e:
+                self._exception(e)
+                self._proccess_exception(e)
 
         return self.result
+
+    def _proccess_exception(self, e):
+        if self.exception_action == constants.EX_RAISE:
+            raise e
+        else:
+            self.result.error = e
 
     def _check_required_data(self, input_data):
         input_keys = input_data.keys()

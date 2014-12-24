@@ -25,3 +25,8 @@ Dummy release
 ===
 
 * Add abstract handlers
+
+2.4
+===
+
+* Cover and log all exceptions in handler's run method in BaseHandler
