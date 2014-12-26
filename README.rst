@@ -2,7 +2,7 @@ Gevent powered cross service communication tool
 ===============================================
 
 This tool is aimed to provide simple and customizable interface for
-communication between different services over sockets. **No encription yet.**
+communication between different services over sockets. **No encryption yet.**
 
 Simple example:
 ---------------

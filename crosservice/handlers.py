@@ -159,7 +159,7 @@ class BaseHandler(object):
     result = None
     _result_class = Result
     required_data = None
-    exception_action = None
+    exception_action = constants.EX_RESULT_ERR
 
     def __init__(self):
         self.result = self._result_class()
@@ -220,7 +220,9 @@ class BaseHandler(object):
                 self._error('Missed key {0}'.format(k))
                 self.result.missed_keys.append(k)
 
-        if not err:
+        if err:
+            self.result.error = 'Missed data'
+        else:
             del self.result.missed_data
 
         return err

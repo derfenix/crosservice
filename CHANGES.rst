@@ -1,38 +1,44 @@
-1.0
-===
+v.1.0
+=====
 
 * Initial verion
 
-2.0
-===
+0.2.0
+=====
 
 * Redesign handlers and signals
 * Replace json serializer by pickle
 * Add more logs to client and server
 
-2.1
-===
+0.2.1
+=====
 
 Dummy release
 
-2.2
-===
+0.2.2
+=====
 
 * Check required data input in handlers
 * Refacroting
 
-2.3
-===
+0.2.3
+=====
 
 * Add abstract handlers
 
-2.4
-===
+0.2.4
+=====
 
 * Cover and log all exceptions in handler's run method in BaseHandler
 
-2.5
-===
+0.2.5
+=====
 
 * Fix BaseResult class
 * Add some readme text
+
+0.2.6
+=====
+
+* Fix in handler's required data check
+* Fix typos
