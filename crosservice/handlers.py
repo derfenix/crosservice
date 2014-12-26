@@ -6,7 +6,6 @@ from gevent.lock import RLock
 import six
 
 import constants
-
 from crosservice.log import baselogger
 
 
@@ -91,10 +90,10 @@ class BaseResult(object):
         raise AttributeError()
 
     def __setitem__(self, key, value):
-        if self._result:
-            self._result[key] = value
-        else:
-            raise AttributeError('There is no result')
+        if not self._result:
+            self.result = {}
+
+        self._result[key] = value
 
     def __contains__(self, item):
         return item in self._result

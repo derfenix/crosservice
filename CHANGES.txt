@@ -30,3 +30,9 @@ Dummy release
 ===
 
 * Cover and log all exceptions in handler's run method in BaseHandler
+
+2.5
+===
+
+* Fix BaseResult class
+* Add some readme text

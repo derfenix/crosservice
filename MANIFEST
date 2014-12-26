@@ -2,8 +2,9 @@
 AUTHORS.txt
 CHANGES.txt
 LICENSE.txt
-README
+README.rst
 requirements.txt
+setup.cfg
 setup.py
 crosservice/__init__.py
 crosservice/client.py
