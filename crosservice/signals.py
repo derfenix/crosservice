@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
-import constants
-from crosservice import Client
+from crosservice import Client, constants
 from crosservice.log import baselogger
 
 

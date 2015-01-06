@@ -5,7 +5,7 @@ import pickle
 from gevent.lock import RLock
 import six
 
-import constants
+from crosservice import constants
 from crosservice.log import baselogger
 
 

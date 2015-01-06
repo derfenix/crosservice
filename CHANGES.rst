@@ -42,3 +42,8 @@ Dummy release
 
 * Fix in handler's required data check
 * Fix typos
+
+0.2.7
+=====
+
+* Bugfix
