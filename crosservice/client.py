@@ -30,6 +30,7 @@ class Client(object):
         msg = pickle.dumps(msg)
         send_msg(_socket, msg)
         response = recv_msg(_socket)
+        _socket.close()
         response = Result.load(response)
         if not response:
             log.error(response.error)

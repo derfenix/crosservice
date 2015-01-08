@@ -50,6 +50,8 @@ class BaseSignal(object):
             self._host = host
         if port:
             self._port = port
+
+        self._client = None
             
         self.log = baselogger.getChild(self.__class__.__name__)
 
@@ -61,7 +63,9 @@ class BaseSignal(object):
         :return: client instance
         :rtype: client.Client
         """
-        return Client(self._host, self._port)
+        del self._client
+        self._client = Client(self._host, self._port)
+        return self._client
 
     def _send(self):
         """Send request to server"""
@@ -111,3 +115,6 @@ class BaseSignal(object):
             self.log.warning(
                 '{0} excpected, but not received!'.format(expect)
             )
+
+    def __del__(self):
+        del self._client

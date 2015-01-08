@@ -47,3 +47,10 @@ Dummy release
 =====
 
 * Bugfix
+
+0.2.8
+=====
+
+* Getting result as dict
+* Clean up keys, passed to handler
+* Resource usage improvements

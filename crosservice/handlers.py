@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
 import pickle
+import inspect
 
 from gevent.lock import RLock
 import six
@@ -119,6 +120,9 @@ class BaseResult(object):
     def __nonzero__(self):
         return self._status
 
+    def dict(self):
+        return self._result
+
     def dump(self):
         return pickle.dumps(self)
 
@@ -195,6 +199,18 @@ class BaseHandler(object):
             err = self._check_required_data(kwargs)
 
         if not err:
+            # Clean passed data
+            args, _, varkw, _ = inspect.getargspec(self.run)
+            # If function not accepts **kwargs
+            if not varkw:
+                # Drop all non-acceptable keys
+                kwargs_keys = kwargs.keys()
+                for k in kwargs_keys:
+                    if k not in args:
+                        self._debug("Drop unacceptable key {0}".format(k))
+                        kwargs.pop(k)
+
+            # Execute handler's run-method
             try:
                 self.run(**kwargs)
             except Exception as e:
