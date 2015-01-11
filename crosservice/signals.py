@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
-from crosservice import Client, constants
+from crosservice import constants
 from crosservice.log import baselogger
+from transports import get_client
 
 
 class MissedResultError(Exception):
@@ -20,6 +21,8 @@ class BaseSignal(object):
     """:type: str"""
     _port = None
     """:type: int"""
+    _transport = None
+    """:type: str or unicode"""
     _result = None
     """:type: handlers.Result"""
 
@@ -64,7 +67,7 @@ class BaseSignal(object):
         :rtype: client.Client
         """
         del self._client
-        self._client = Client(self._host, self._port)
+        self._client = get_client(self._transport)(self._host, self._port)
         return self._client
 
     def _send(self):

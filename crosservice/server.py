@@ -12,9 +12,6 @@ from gevent.server import StreamServer
 
 from crosservice.utils import recv_msg, send_msg
 
-# noinspection PyUnresolvedReferences
-import test
-
 
 log = logging.getLogger(__name__)
 
