@@ -72,14 +72,17 @@ Handlers = HandlersStorage()
 # region Result
 class BaseResult(object):
     _status = False
+    """:type: bool"""
     _error = None
+    """:type: str or unicode"""
     _result = {}
+    """:type: dict"""
 
     def __init__(self, status=None, result=None, error=None):
         if status:
             self._status = status
 
-        if result:
+        if result and isinstance(result, dict):
             self._result = result
 
         if error:
@@ -97,7 +100,14 @@ class BaseResult(object):
         self._result[key] = value
 
     def __contains__(self, item):
+        if item == 'error' and self.error:
+            return True
+
         return item in self._result
+
+    def __iter__(self):
+        for k, v in self._result.items():
+            yield k, v
 
     def get_result(self):
         return self._result
@@ -122,6 +132,15 @@ class BaseResult(object):
 
     def dict(self):
         return self._result
+
+    def keys(self):
+        return self._result.keys()
+
+    def values(self):
+        return self._result.values()
+
+    def items(self):
+        return self._result.items()
 
     def dump(self):
         return pickle.dumps(self)

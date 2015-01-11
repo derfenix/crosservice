@@ -54,3 +54,8 @@ Dummy release
 * Getting result as dict
 * Clean up keys, passed to handler
 * Resource usage improvements
+
+0.2.9
+=====
+
+* Improve BaseResult class
