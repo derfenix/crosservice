@@ -4,7 +4,7 @@ _version = '0.2.9',
 
 setup(
     name='crosservice',
-    version=_version,
+    version='0.2.9',
     packages=['crosservice'],
     install_requires=open('requirements.txt').read(),
     license='GPL',
