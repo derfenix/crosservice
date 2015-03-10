@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
 
+VERSION = 2
 
 MD_LOG_WARN = 0
 MD_RAISE = 1
