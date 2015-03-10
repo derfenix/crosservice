@@ -1,10 +1,10 @@
 from distutils.core import setup
 
-_version = '0.2.9',
+_version = '0.2.10'
 
 setup(
     name='crosservice',
-    version='0.2.9',
+    version='0.2.10',
     packages=['crosservice'],
     install_requires=open('requirements.txt').read(),
     license='GPL',

@@ -59,3 +59,8 @@ Dummy release
 =====
 
 * Improve BaseResult class
+
+0.2.10
+======
+
+* Add protocol version into messages
