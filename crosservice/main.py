@@ -3,7 +3,7 @@ from __future__ import unicode_literals, print_function, absolute_import
 
 import os
 
-from crosservice.server import start_server
+from .server import start_server
 
 
 LISTEN_HOST = os.environ.get('CROSSERVICE_LISTEN_HOST', '127.0.0.1')

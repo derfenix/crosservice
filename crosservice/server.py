@@ -5,12 +5,12 @@ from gevent import monkey
 monkey.patch_all()
 # @formatter:on
 import pickle
-from crosservice.handlers import Handlers, Result
+from .handlers import Handlers, Result
 import logging
 
 from gevent.server import StreamServer
 
-from crosservice.utils import recv_msg, send_msg
+from .utils import recv_msg, send_msg
 
 # noinspection PyUnresolvedReferences
 import test
@@ -42,7 +42,7 @@ def handler(socket, address):
     # Trying to execute action's handler
     if signal in Handlers:
         h = Handlers[signal]
-        """:type: crosservice.handlers.Handler"""
+        """:type: .handlers.Handler"""
         log.info(
             "Using `{0}` as handler for signal `{1}`".format(
                 h.name, signal

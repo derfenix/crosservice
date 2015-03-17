@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, absolute_import
-from crosservice import Client, constants
-from crosservice.log import baselogger
+from .client import Client
+from . import constants
+from .log import baselogger
 
 
 class MissedResultError(Exception):

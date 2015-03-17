@@ -6,8 +6,8 @@ import inspect
 from gevent.lock import RLock
 import six
 
-from crosservice import constants
-from crosservice.log import baselogger
+from . import constants
+from .log import baselogger
 
 
 logger = baselogger.getChild('handlers')
@@ -249,7 +249,7 @@ class BaseHandler(object):
         err = False
         self.result.missed_keys = []
 
-        for k in self._required_data:
+        for k in self.required_data:
             if k not in input_keys:
                 err = True
                 self._error('Missed key {0}'.format(k))

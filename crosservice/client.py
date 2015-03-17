@@ -5,13 +5,13 @@ from gevent import monkey
 monkey.patch_all()
 # @formatter:on
 import pickle
-from crosservice.log import baselogger
+from .log import baselogger
 import sys
 
 from gevent import socket
 
-from crosservice.handlers import Result
-from crosservice.utils import send_msg, recv_msg
+from .handlers import Result
+from .utils import send_msg, recv_msg
 
 
 logger = baselogger.getChild('client')

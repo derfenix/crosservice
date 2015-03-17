@@ -69,3 +69,13 @@ Dummy release
 ======
 
 * Bugfix
+
+0.2.12
+======
+
+* Bugfix
+
+0.2.13
+======
+
+* Bugfix

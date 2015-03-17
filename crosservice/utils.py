@@ -2,8 +2,8 @@
 from __future__ import print_function, absolute_import
 import struct
 
-from crosservice.constants import VERSION
-from crosservice.log import baselogger
+from .constants import VERSION
+from .log import baselogger
 
 
 logger = baselogger.getChild('utils')

@@ -4,10 +4,10 @@ from __future__ import unicode_literals, print_function, absolute_import
 from gevent import monkey
 monkey.patch_all()
 # @formatter:on
-from crosservice.signals import BaseSignal
-from crosservice.client import Client
+from .signals import BaseSignal
+from .client import Client
 import unittest
-from crosservice.handlers import BaseHandler
+from .handlers import BaseHandler
 
 
 # TODO: Test missed data events
