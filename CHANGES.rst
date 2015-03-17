@@ -64,3 +64,8 @@ Dummy release
 ======
 
 * Add protocol version into messages
+
+0.2.11
+======
+
+* Bugfix
