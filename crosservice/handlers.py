@@ -258,7 +258,7 @@ class BaseHandler(object):
         if err:
             self.result.error = 'Missed data'
         else:
-            del self.result.missed_data
+            del self.result.missed_keys
 
         return err
 

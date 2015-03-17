@@ -79,3 +79,8 @@ Dummy release
 ======
 
 * Bugfix
+
+0.2.14
+======
+
+* Bugfix
