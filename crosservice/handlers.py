@@ -242,7 +242,9 @@ class BaseHandler(object):
         if self.exception_action == constants.EX_RAISE:
             raise e
         else:
-            self.result.error = e
+            # Save error as text, as soon as client may have no such exception
+            # class and pickle will be failed to load message
+            self.result.error = six.u(e)
 
     def _check_required_data(self, input_data):
         input_keys = input_data.keys()

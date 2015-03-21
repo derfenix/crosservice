@@ -2,12 +2,15 @@
 from __future__ import unicode_literals, print_function, absolute_import
 # @formatter:off
 from gevent import monkey
+import time
 monkey.patch_all()
 # @formatter:on
-from .signals import BaseSignal
-from .client import Client
+from crosservice.server import start_server
+from multiprocessing.process import Process
+from crosservice.signals import BaseSignal
+from crosservice.client import Client
 import unittest
-from .handlers import BaseHandler
+from crosservice.handlers import BaseHandler
 
 
 # TODO: Test missed data events
@@ -42,6 +45,8 @@ class TestErrorHandler(BaseHandler):
 
 class TestErrorSignal(Signal):
     signal = 'test_error'
+
+
 # endregion
 
 
@@ -70,4 +75,11 @@ class MyTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    server = Process(target=start_server, args=('127.0.0.1', 1234, 100))
+    tests = Process(target=unittest.main)
+
+    server.start()
+    tests.start()
+    server.join()
+    time.sleep(2)
+    tests.join()

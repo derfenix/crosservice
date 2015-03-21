@@ -12,10 +12,6 @@ from gevent.server import StreamServer
 
 from .utils import recv_msg, send_msg
 
-# noinspection PyUnresolvedReferences
-import test
-
-
 log = logging.getLogger(__name__)
 
 

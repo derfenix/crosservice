@@ -37,24 +37,36 @@ class BaseSignal(object):
     """:type: int"""
 
     #: Signal's logger
-    log = None
+    _log = None
     """:type: logging.Logger"""
 
-    def __init__(self, data, host=None, port=None):
+    def __init__(self, data=None, _host=None, _port=None, **kwargs):
         """
         :param dict data: request data
-        :param str host: override server's host
-        :param int port: override server's port
+        :param str _host: override server's _host
+        :param int _port: override server's _port
         """
-        self._data = data
-        if host:
-            self._host = host
-        if port:
-            self._port = port
+        if kwargs:
+            self._data = kwargs
+
+        if data:
+            if kwargs:
+                self._data['data'] = data
+            else:
+                self._data = data
+
+        if _host:
+            self._host = _host
+        if _port:
+            self._port = _port
 
         self._client = None
-            
-        self.log = baselogger.getChild(self.__class__.__name__)
+
+    @property
+    def log(self):
+        if not self._log:
+            self._log = baselogger.getChild(self.__class__.__name__)
+        return self._log
 
     @property
     def client(self):

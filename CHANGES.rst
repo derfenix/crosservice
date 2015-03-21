@@ -84,3 +84,10 @@ Dummy release
 ======
 
 * Bugfix
+
+0.2.15
+======
+
+* Fix tests and logging
+* Fix passing raised exceptions
+* Allow passing signal data as kwargs, not just as dict in `data` arg

@@ -5,4 +5,5 @@ import sys
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-baselogger = logging.getLogger('crosservice')
+rootlogger = logging.getLogger()
+baselogger = rootlogger.getChild('crosservice')
